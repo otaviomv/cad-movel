@@ -1,0 +1,24 @@
+{
+  "name": "Mobile CAD",
+  "short_name": "Mobile CAD",
+  "description": "CAD 2D técnico para dispositivos móveis",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "orientation": "landscape",
+  "background_color": "#070b10",
+  "theme_color": "#111827",
+  "lang": "pt-BR",
+  "categories": [
+    "productivity",
+    "design",
+    "utilities"
+  ],
+  "icons": [
+    {
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='90' fill='%23111827'/%3E%3Crect x='80' y='80' width='352' height='352' rx='55' fill='%2338bdf8'/%3E%3Cpath d='M145 350L250 145L365 350M185 280H320' fill='none' stroke='%23070b10' stroke-width='35'/%3E%3C/svg%3E",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
