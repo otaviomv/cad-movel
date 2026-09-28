@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+  <meta name="theme-color" content="#111827">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+  <title>Mobile CAD</title>
+
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <span class="logo">CAD</span>
+    <span class="brand-name">Mobile CAD</span>
+  </div>
+
+  <div class="top-actions">
+    <button id="undoBtn" title="Desfazer">↶</button>
+    <button id="redoBtn" title="Refazer">↷</button>
+    <button id="saveBtn" title="Salvar">💾</button>
+    <button id="menuBtn" title="Menu">☰</button>
+  </div>
+</header>
+
+<main>
+
+  <section id="drawingArea">
+
+    <svg id="cadSvg"
+         xmlns="http://www.w3.org/2000/svg"
+         viewBox="-500 -400 1000 800">
+
+      <defs>
+        <pattern id="gridSmall"
+                 width="10"
+                 height="10"
+                 patternUnits="userSpaceOnUse">
+          <path d="M 10 0 L 0 0 0 10"
+                fill="none"
+                class="grid-small"/>
+        </pattern>
+
+        <pattern id="gridLarge"
+                 width="100"
+                 height="100"
+                 patternUnits="userSpaceOnUse">
+          <rect width="100" height="100"
+                fill="url(#gridSmall)"/>
+          <path d="M 100 0 L 0 0 0 100"
+                fill="none"
+                class="grid-large"/>
+        </pattern>
+      </defs>
+
+      <rect id="grid"
+            x="-10000"
+            y="-10000"
+            width="20000"
+            height="20000"
+            fill="url(#gridLarge)"/>
+
+      <g id="objects"></g>
+
+      <g id="selectionLayer"></g>
+
+    </svg>
+
+    <div id="crosshair"></div>
+
+    <div id="coordinateBox">
+      X: <span id="coordX">0.00</span>
+      &nbsp;&nbsp;
+      Y: <span id="coordY">0.00</span>
+    </div>
+
+    <div id="snapIndicator">
+      SNAP
+      <span id="snapState">ON</span>
+    </div>
+
+    <div id="commandHint">
+      Selecione um comando
+    </div>
+
+  </section>
+
+  <section class="commandBar">
+
+    <button data-command="select">
+      <span>↖</span>
+      Selecionar
+    </button>
+
+    <button data-command="line">
+      <span>╱</span>
+      Linha
+    </button>
+
+    <button data-command="polyline">
+      <span>⌁</span>
+      Polilinha
+    </button>
+
+    <button data-command="circle">
+      <span>○</span>
+      Círculo
+    </button>
+
+    <button data-command="arc">
+      <span>⌒</span>
+      Arco
+    </button>
+
+    <button data-command="rectangle">
+      <span>□</span>
+      Retângulo
+    </button>
+
+    <button data-command="spring">
+      <span>〰</span>
+      Mola
+    </button>
+
+    <button data-command="dimension">
+      <span>↔</span>
+      Cota
+    </button>
+
+    <button data-command="measure">
+      <span>📏</span>
+      Medir
+    </button>
+
+    <button data-command="move">
+      <span>✥</span>
+      Mover
+    </button>
+
+    <button data-command="copy">
+      <span>⧉</span>
+      Copiar
+    </button>
+
+    <button data-command="rotate">
+      <span>⟳</span>
+      Rotacionar
+    </button>
+
+    <button data-command="mirror">
+      <span>⇋</span>
+      Espelhar
+    </button>
+
+    <button data-command="offset">
+      <span>║</span>
+      Offset
+    </button>
+
+    <button data-command="delete">
+      <span>⌫</span>
+      Apagar
+    </button>
+
+  </section>
+
+</main>
+
+<nav id="bottomBar">
+
+  <button id="gridBtn" class="active">
+    GRID
+  </button>
+
+  <button id="snapBtn" class="active">
+    SNAP
+  </button>
+
+  <button id="orthoBtn">
+    ORTHO
+  </button>
+
+  <button id="zoomFitBtn">
+    FIT
+  </button>
+
+  <button id="propertiesBtn">
+    PROPRIEDADES
+  </button>
+
+</nav>
+
+<aside id="sideMenu" class="hidden">
+
+  <div class="menuHeader">
+    <strong>Mobile CAD</strong>
+    <button id="closeMenu">×</button>
+  </div>
+
+  <button id="newBtn">Novo desenho</button>
+
+  <button id="openBtn">Abrir projeto</button>
+
+  <button id="exportSvgBtn">Exportar SVG</button>
+
+  <button id="exportDxfBtn">Exportar DXF</button>
+
+  <button id="printBtn">Imprimir / PDF</button>
+
+  <button id="settingsBtn">Configurações</button>
+
+  <input id="fileInput"
+         type="file"
+         accept=".json,application/json"
+         hidden>
+
+</aside>
+
+<div id="propertiesPanel" class="panel hidden">
+
+  <div class="panelHeader">
+    <strong>Propriedades</strong>
+    <button id="closeProperties">×</button>
+  </div>
+
+  <div id="propertiesContent">
+    <p>Nenhum objeto selecionado.</p>
+  </div>
+
+</div>
+
+<div id="inputDialog" class="dialog hidden">
+
+  <div class="dialogBox">
+
+    <h3 id="dialogTitle">Entrada</h3>
+
+    <div id="dialogFields"></div>
+
+    <div class="dialogActions">
+      <button id="dialogCancel">Cancelar</button>
+      <button id="dialogOK">OK</button>
+    </div>
+
+  </div>
+
+</div>
+
+<div id="toast"></div>
+
+<script src="app.js"></script>
+
+</body>
+</html>
